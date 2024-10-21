@@ -1,0 +1,13 @@
+{
+  "name": "zefiro-project",
+  "description": "A project to learn how to write a frontend framework",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "serve:examples": "npx http-server . -o ./examples -c-1"
+  },
+  "author": "René Schober <r.schober@outlook.com> (https://codingruo.dev/)",
+  "workspaces": [
+    "packages/runtime"
+  ]
+}
