@@ -5,6 +5,7 @@ import { DOM_TYPES, extractChildren } from './h'
 import { mountDOM } from './mount-dom'
 import { patchDOM } from './patch-dom'
 import { hasOwnProperty } from './utils/objects'
+import { fillSlots } from './slots'
 
 const emptyFn = () => {}
 
@@ -41,6 +42,11 @@ export function defineComponent({ render, state, onMounted = emptyFn, onUnMounte
         #parentComponent = null
         #dispatcher = new Dispatcher()
         #subscriptions = []
+        #children = []
+
+        setExternalContent( children ) {
+            this.#children = children;
+        }
 
         /**
          * Creates an instance of the component.
@@ -145,7 +151,10 @@ export function defineComponent({ render, state, onMounted = emptyFn, onUnMounte
         }
 
         render() {
-            return render.call(this)
+            const vdom = render.call(this)
+            fillSlots(vdom, this.#children)
+
+            return vdom
         }
 
         mount(hostEl, index = null) {
